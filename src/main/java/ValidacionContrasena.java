@@ -1,4 +1,5 @@
 import java.io.File;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
@@ -9,14 +10,13 @@ public class ValidacionContrasena {
 
 
   public boolean validacionContrasena(String contrasena) {
-    boolean resultado = false;
-    if (contrasena.isEmpty() || contrasena == null) {
+    if (contrasena.isEmpty()) {
       throw new ContrsenaInvalidaException("Ingrese una contraseña");
     }
     if (cumpleFormato(contrasena)) {
-      resultado = noEsContrasenaComun(contrasena);
+      noEsContrasenaComun(contrasena);
     }
-    return resultado;
+    return true;
   }
 
   private boolean cumpleFormato(String contrasena) {
@@ -38,7 +38,7 @@ public class ValidacionContrasena {
     try {
       Path path = Paths.get("");
       String ruta = path.toAbsolutePath().toString();
-      Scanner lee = new Scanner(new File(ruta + "\\contrasenas.txt"));
+      Scanner lee = new Scanner(new File(ruta + "\\contrasenas.txt"), "UTF-8");
       String linea;
 
       while (lee.hasNextLine()) {
